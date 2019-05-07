@@ -1,0 +1,1366 @@
+openapi: 3.0.0
+info:
+  title: member-api
+  description: API de gestion des associations et des membres de l'EMA
+  version: 1.0.0
+  contact:
+    name: Dorian Dignac
+    email: dorian.dignac@mines-ales.org
+    url: jenenaipas.com
+
+servers:
+  - url: https://api.cercle-des-eleves.fr/v1/member
+    description: URL de l'API en prod (qui ne sera pas ça)
+paths:
+  /associations:
+    get:
+      tags:
+        - association
+      description: retourne un liste d'associations.
+      operationId: getAllAssociations
+      responses:
+        200:
+          description: un table JSON de l'ID et du nom des associations.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Association"
+
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Association not found
+    post:
+      tags:
+        - association
+      description: crée une association.
+      operationId: createAssociation
+      requestBody:
+        description: informations à propos de l'Association
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssociationCreate"
+
+      responses:
+        201:
+          description: retourne l\'association créée
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Association"
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Association not found
+
+  /associations/{associationId}:
+    get:
+      tags:
+        - association
+      description: renvoie une association
+      operationId: getAssociationById
+      parameters:
+        - name: associationId
+          in: path
+          required: true
+          description: Id de l\'association à retourner.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Retourne une association en JSON
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Association"
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Association not found
+
+    put:
+      tags:
+        - association
+      description: met a jour une association.
+      operationId: updateAssociation
+      parameters:
+        - name: associationId
+          in: path
+          required: true
+          description: Id de l\'association à retourner.
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Association avec données modifiées
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Association"
+
+      responses:
+        201:
+          description: retourne l\'association modifiée
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AssociationCreate"
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Association not found
+
+    delete:
+      tags:
+        - association
+      description: Supprime une association
+      operationId: deleteAssociationById
+      parameters:
+        - name: associationId
+          in: path
+          required: true
+          description: Id de l\'association à supprimer.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        204:
+          description: Deleted
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Association not found
+  /associations/{associationId}/members:
+    get:
+      tags:
+        - association
+      description: renvoie la liste des membres présents dans l\'association.
+      operationId: getMembersOfAssociationById
+      parameters:
+        - name: associationId
+          in: path
+          required: true
+          description: Id de l\'association.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Retourne une liste de membres en JSON
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MemberList'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Association or Member not found
+
+  /associations/{associationId}/users/{userId}/roles/{roleId}:
+    post:
+      tags:
+        - association
+      description: Adhère un membre à une association.
+      operationId: linkAssociationAndMember
+      parameters:
+        - name: associationId
+          in: path
+          required: true
+          description: Id de l\'association.
+          schema:
+            type: string
+            format: uuid
+        - name: userId
+          in: path
+          required: true
+          description: Id de du membre à adhérer
+          schema:
+            type: string
+            format: uuid
+        - name: roleId
+          in: path
+          required: true
+          description: Id du role à attribuer au membre
+          schema:
+            type: string
+            format: uuid
+
+      responses:
+        200:
+          description: Effectue l\'adhésion de l\'utlisateur à l\'association
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Member'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Association or Member not found
+    delete:
+      tags:
+        - association
+      description: Exclut un membre d'une association
+      operationId: RemoveMemberOfAssociation
+      parameters:
+        - name: associationId
+          in: path
+          required: true
+          description: Id de l\'association.
+          schema:
+            type: string
+            format: uuid
+        - name: userId
+          in: path
+          required: true
+          description: Id de du membre à adhérer
+          schema:
+            type: string
+            format: uuid
+        - name: roleId
+          in: path
+          required: true
+          description: Id du role à attribuer au membre
+          schema:
+            type: string
+            format: uuid
+      responses:
+        204:
+          description: Removed
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Association not found
+  /association/{associationId}/groups:
+    get:
+      tags:
+        - association
+      description: renvoie la liste des groupes géré par l’association.
+      operationId: getSubgroupsOfAssociationById
+      parameters:
+        - name: associationId
+          in: path
+          required: true
+          description: Id de l\'association.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Retourne une liste des sous groupes de l’association en JSON
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Group"
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Association or Group not found
+
+  /associations/{associationId}/groups/{groupId}:
+    post:
+      tags:
+        - association
+      description: Affilie un groupe à une association.
+      operationId: AffiliateGroupToAssociation
+      parameters:
+        - name: associationId
+          in: path
+          required: true
+          description: Id de l\'association.
+          schema:
+            type: string
+            format: uuid
+        - name: groupId
+          in: path
+          required: true
+          description: Id du groupe à affilier
+          schema:
+            type: string
+            format: uuid
+
+      responses:
+        200:
+          description: Effectue l\'affilliation d\'une association et son sous groupe
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Association not found
+    delete:
+      tags:
+        - association
+      description: Exclut un sous groupe d'une association
+      operationId: RemoveGroupOfAssociation
+      parameters:
+        - name: associationId
+          in: path
+          required: true
+          description: Id de l\'association.
+          schema:
+            type: string
+            format: uuid
+        - name: groupId
+          in: path
+          required: true
+          description: Id du sous groupe à exclure
+          schema:
+            type: string
+            format: uuid
+      responses:
+        204:
+          description: Removed
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Association not found
+
+
+
+
+
+
+
+
+
+
+
+
+  /offices:
+    get:
+      tags:
+        - office
+      description: retourne un liste de bureaux.
+      operationId: getAllOffices
+      responses:
+        200:
+          description: un table JSON de l'ID et du nom des bureaux.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Office"
+
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Office not found
+    post:
+      tags:
+        - office
+      description: crée un bureau.
+      operationId: createOffice
+      requestBody:
+        description: informations à propos de l'Office
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OfficeCreate"
+
+      responses:
+        201:
+          description: retourne le bureau créé
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Office"
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Office not found
+
+  /offices/{officeId}:
+    get:
+      tags:
+        - office
+      description: renvoie un bureau
+      operationId: getOfficeById
+      parameters:
+        - name: officeId
+          in: path
+          required: true
+          description: Id du bureau à retourner.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Retourne un bureau en JSON
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Office"
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Office not found
+
+    put:
+      tags:
+        - office
+      description: met a jour un bureau.
+      operationId: updateOffice
+      parameters:
+        - name: officeId
+          in: path
+          required: true
+          description: Id  du bureau à retourner.
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Office avec données modifiées
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Office"
+
+      responses:
+        201:
+          description: retourne  le bureau modifié
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OfficeCreate"
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Office not found
+
+    delete:
+      tags:
+        - office
+      description: Supprime un bureau
+      operationId: deleteOfficeById
+      parameters:
+        - name: officeId
+          in: path
+          required: true
+          description: Id  du bureau à supprimer.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        204:
+          description: Deleted
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Office not found
+  /offices/{officeId}/members:
+    get:
+      tags:
+        - office
+      description: renvoie la liste des membres présents dans  le bureau.
+      operationId: getMembersOfOfficeById
+      parameters:
+        - name: officeId
+          in: path
+          required: true
+          description: Id  du bureau.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Retourne une liste de membres en JSON
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Member'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Office or Member not found
+
+  /offices/{officeId}/users/{userId}/roles/{roleId}:
+    post:
+      tags:
+        - office
+      description: Adhère un membre à un bureau.
+      operationId: linkOfficeAndMember
+      parameters:
+        - name: officeId
+          in: path
+          required: true
+          description: Id  du bureau.
+          schema:
+            type: string
+            format: uuid
+        - name: userId
+          in: path
+          required: true
+          description: Id de du membre à adhérer
+          schema:
+            type: string
+            format: uuid
+        - name: roleId
+          in: path
+          required: true
+          description: Id du role à attribuer au membre
+          schema:
+            type: string
+            format: uuid
+
+      responses:
+        200:
+          description: Effectue l\'adhésion du membre au bureau
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Office or Member not found
+    delete:
+      tags:
+        - office
+      description: Exclut un membre d'un bureau
+      operationId: RemoveMemberOfOffice
+      parameters:
+        - name: officeId
+          in: path
+          required: true
+          description: Id  du bureau.
+          schema:
+            type: string
+            format: uuid
+        - name: userId
+          in: path
+          required: true
+          description: Id de du membre à adhérer
+          schema:
+            type: string
+            format: uuid
+        - name: roleId
+          in: path
+          required: true
+          description: Id du role à attribuer au membre
+          schema:
+            type: string
+            format: uuid
+      responses:
+        204:
+          description: Removed
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Office not found
+  /office/{officeId}/clubs:
+    get:
+      tags:
+        - office
+      description: renvoie la liste des clubs géré par le bureau.
+      operationId: getSubclubsOfOfficeById
+      parameters:
+        - name: officeId
+          in: path
+          required: true
+          description: Id  du bureau.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Retourne une liste des sous clubs du bureau en JSON
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Group"
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Office or Group not found
+
+  /offices/{officeId}/clubs/{clubId}:
+    post:
+      tags:
+        - office
+      description: Affilie un club à un bureau.
+      operationId: AffiliateGroupToOffice
+      parameters:
+        - name: officeId
+          in: path
+          required: true
+          description: Id  du bureau.
+          schema:
+            type: string
+            format: uuid
+        - name: clubId
+          in: path
+          required: true
+          description: Id du club à affilier
+          schema:
+            type: string
+            format: uuid
+
+      responses:
+        200:
+          description: Effectue l\'affilliation d\'un bureau et son sous club
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Office not found
+    delete:
+      tags:
+        - office
+      description: Exclut un sous club d'un bureau
+      operationId: RemoveGroupOfOffice
+      parameters:
+        - name: officeId
+          in: path
+          required: true
+          description: Id  du bureau.
+          schema:
+            type: string
+            format: uuid
+        - name: clubId
+          in: path
+          required: true
+          description: Id du sous club à exclure
+          schema:
+            type: string
+            format: uuid
+      responses:
+        204:
+          description: Removed
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Office not found
+
+
+
+
+
+
+
+
+  /clubs:
+    get:
+      tags:
+        - club
+      description: retourne un liste de clubs.
+      operationId: getAllClubs
+      responses:
+        200:
+          description: un table JSON de l'ID et du nom des clubs.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Club"
+
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Club not found
+    post:
+      tags:
+        - club
+      description: crée un club.
+      operationId: createClub
+      requestBody:
+        description: informations à propos de du club
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClubCreate"
+
+      responses:
+        201:
+          description: retourne le club créé
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Club"
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Club not found
+
+  /clubs/{clubId}:
+    get:
+      tags:
+        - club
+      description: renvoie un club
+      operationId: getClubById
+      parameters:
+        - name: clubId
+          in: path
+          required: true
+          description: Id du club à retourner.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Retourne un club en JSON
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Club"
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Club not found
+
+    put:
+      tags:
+        - club
+      description: met a jour un club.
+      operationId: updateClub
+      parameters:
+        - name: clubId
+          in: path
+          required: true
+          description: Id du club à retourner.
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Club avec données modifiées
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Club"
+
+      responses:
+        201:
+          description: retourne le club modifié
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ClubCreate"
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Club not found
+
+    delete:
+      tags:
+        - club
+      description: Supprime un club
+      operationId: deleteClubById
+      parameters:
+        - name: clubId
+          in: path
+          required: true
+          description: Id du club à supprimer.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        204:
+          description: Deleted
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Club not found
+  /clubs/{clubId}/members:
+    get:
+      tags:
+        - club
+      description: renvoie la liste des membres présents dans le club.
+      operationId: getMembersOfClubById
+      parameters:
+        - name: clubId
+          in: path
+          required: true
+          description: Id du club.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Retourne une liste de membres en JSON
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Member'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Club or Member not found
+
+  /clubs/{clubId}/users/{userId}/roles/{roleId}:
+    post:
+      tags:
+        - club
+      description: Adhère un membre à un club.
+      operationId: linkClubAndMember
+      parameters:
+        - name: clubId
+          in: path
+          required: true
+          description: Id du club.
+          schema:
+            type: string
+            format: uuid
+        - name: userId
+          in: path
+          required: true
+          description: Id de du membre à adhérer
+          schema:
+            type: string
+            format: uuid
+        - name: roleId
+          in: path
+          required: true
+          description: Id du role à attribuer au membre
+          schema:
+            type: string
+            format: uuid
+
+      responses:
+        200:
+          description: Effectue l\'adhésion de l\'utlisateur à le club
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Club or Member not found
+    delete:
+      tags:
+        - club
+      description: Exclut un membre d'un club
+      operationId: RemoveMemberOfClub
+      parameters:
+        - name: clubId
+          in: path
+          required: true
+          description: Id du club.
+          schema:
+            type: string
+            format: uuid
+        - name: userId
+          in: path
+          required: true
+          description: Id de du membre à adhérer
+          schema:
+            type: string
+            format: uuid
+        - name: roleId
+          in: path
+          required: true
+          description: Id du role à attribuer au membre
+          schema:
+            type: string
+            format: uuid
+
+      responses:
+        204:
+          description: Removed
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Club not found
+
+
+
+
+
+  /user:
+    get:
+      tags:
+        - user
+      description: retourne un liste d'utilisateurs.
+      operationId: getAllUsers
+      responses:
+        200:
+          description: Retourne une liste d'utilisateurs
+
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: User not found
+    post:
+      tags:
+        - user
+      description: crée un utilisateur.
+      operationId: createUser
+      requestBody:
+        description: informations à propos de l'utilisateur
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRegister"
+
+      responses:
+        201:
+          description: retourne l'utilisateur créé
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+
+
+  /user/{userId}:
+    get:
+      tags:
+        - user
+      description: renvoie un utilisateur
+      operationId: getUserById
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: Id de l'utilisateur à retourner.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Retourne un utilisateur en JSON
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: User not found
+
+    put:
+      tags:
+        - user
+      description: met a jour un utilisateur.
+      operationId: updateUser
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: Id de l'utilisateur à modifier.
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: utilisateur avec données modifiées
+        required: true
+
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRegister"
+
+      responses:
+        201:
+          description: retourne l'utilisateur modifié
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: User not found
+    delete:
+      tags:
+        - user
+      description: Supprime une utilisateur
+      operationId: deleteUserById
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: Id de l'utilisateur à supprimer.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        204:
+          description: Deleted
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: User not found
+
+  /promotion:
+    post:
+      tags:
+        - promotion
+      description: crée une promotion
+      requestBody:
+        description: nom de la promotion à créer
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Promotion"
+
+      responses:
+        201:
+          description: retourne la promotion créée
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Promotion"
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+
+  /promotion/{promotionName}:
+    delete:
+      tags:
+        - promotion
+      description: Supprime une promotion
+      operationId: deletePromotionByName
+      parameters:
+        - name: promotionName
+          in: path
+          required: true
+          description: nom de la promo à supprimer.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        204:
+          description: Deleted
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized - not authentificated
+        403:
+          description: Forbidden - not allowed to do this operation
+        404:
+          description: Promotion not found
+
+
+
+
+
+
+components:
+  schemas:
+    GroupCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Cercle Des Elèves
+        active:
+          type: boolean
+        creationDate:
+          type: string
+          format: date
+        president:
+          $ref: "#/components/schemas/User"
+      required:
+        - name
+        - creationDate
+    Group:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            members:
+              type: array
+              items:
+                $ref: "#/components/schemas/User"
+            roles:
+              type: array
+              items:
+                $ref: "#/components/schemas/Role"
+        - $ref: "#/components/schemas/GroupCreate"
+      required:
+        - id
+    AssociationCreate:
+      allOf:
+        - type: object
+          properties:
+            siret:
+              type: number
+              example: 421 882 895 00012
+        - $ref: "#/components/schemas/GroupCreate"
+
+    Association:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            groups:
+              type: array
+              items:
+                $ref: "#/components/schemas/Group"
+
+        - $ref: "#/components/schemas/AssociationCreate"
+      required:
+        - id
+    OfficeCreate:
+      allOf:
+        - $ref: "#/components/schemas/GroupCreate"
+
+    Office:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            clubs:
+              type: array
+              items:
+                $ref: "#/components/schemas/Club"
+
+        - $ref: "#/components/schemas/OfficeCreate"
+      required:
+        - id
+    ClubCreate:
+      allOf:
+        - $ref: "#/components/schemas/GroupCreate"
+
+    Club:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+        - $ref: "#/components/schemas/ClubCreate"
+      required:
+        - id
+
+    Role:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        role:
+          type: string
+          example: Trésorier
+
+    Member:
+      type: object
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+        role:
+          $ref: "#/components/schemas/Role"
+        group:
+          $ref: "#/components/schemas/Group"
+
+    MemberList:
+      allOf:
+        - $ref: "#/components/schemas/User"
+        - $ref: "#/components/schemas/Role"
+
+
+    Promotion:
+      type: object
+      properties:
+        name:
+          type: string
+          example: INFRES11
+
+    UserRegister:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: Jon
+        LastName:
+          type: string
+          example: Doe
+        mail:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+        phoneNumber:
+          type: integer
+        promotion:
+          $ref: "#/components/schemas/Promotion"
+      required:
+        - firstName
+        - LastName
+        - mail
+        - password
+
+    User:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+        - $ref: "#/components/schemas/UserRegister"
+      required:
+        - id
+
+                
