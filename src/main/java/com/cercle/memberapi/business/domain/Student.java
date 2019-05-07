@@ -9,7 +9,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 public class Student {
-    private UUID uuid;
+    private String uuid;
     private String name;
     private String firstName;
     private String mail;
