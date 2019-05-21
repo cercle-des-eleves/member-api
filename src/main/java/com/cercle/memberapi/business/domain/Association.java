@@ -13,7 +13,7 @@ public class Association extends Group{
 
     private List<Group> groups;
 
-    public Association(UUID id, String name, Boolean active, ZonedDateTime creationDate, List<Group> groups) {
+    public Association(String  id, String name, Boolean active, ZonedDateTime creationDate, List<Group> groups) {
         super(id, name, active, creationDate);
         this.groups = groups;
     }
