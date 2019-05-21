@@ -1,0 +1,5 @@
+DB_URL: localhost
+DB_NAME: memberapi
+DB_PORT: 3306
+DB_USERNAME: root
+DB_PASSWORD: root
