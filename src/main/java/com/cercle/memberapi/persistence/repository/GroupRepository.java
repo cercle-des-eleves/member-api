@@ -8,8 +8,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface GroupRepository extends JpaRepository<Group, UUID> {
+public interface GroupRepository extends JpaRepository<Group, String> {
 
     @Override
-    Optional<Group> findById(UUID uuid);
+    Optional<Group> findById(String id);
 }
