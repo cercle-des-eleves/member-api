@@ -4,4 +4,5 @@ import com.cercle.memberapi.api.model.GroupDTO;
 
 public interface GroupService {
    GroupDTO getGroupWithID(String id);
+   
 }
