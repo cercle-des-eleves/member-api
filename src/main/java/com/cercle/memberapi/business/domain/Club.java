@@ -9,7 +9,7 @@ import java.util.UUID;
 @Data
 public class Club extends Group {
 
-    public Club(UUID id, String name, Boolean active, ZonedDateTime creationDate) {
+    public Club(String id, String name, Boolean active, ZonedDateTime creationDate) {
         super(id, name, active, creationDate);
     }
 }

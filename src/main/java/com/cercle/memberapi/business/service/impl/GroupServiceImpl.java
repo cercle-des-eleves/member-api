@@ -25,8 +25,8 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public GroupDTO getGroupWithID(String id) {
 
-        Optional<Group> result = groupRepository.findById(UUID.fromString(id));
-
+        Optional<Group> result = groupRepository.findById(id);
+        
         return result.map(group -> groupMapper.toGroupDTO(group)).orElseThrow(() -> new RuntimeException("Group Not Found"));
     }
 }

@@ -21,33 +21,32 @@ import static org.mockito.Mockito.when;
 class GroupServiceImplTest {
 
 
-    public static final String NAME = "Group";
-    public static final boolean ACTIVE = true;
-    public static final ZonedDateTime CREATION_DATE = ZonedDateTime.now();
+    private static final String NAME = "Group";
+    private static final boolean ACTIVE = true;
+    private static final ZonedDateTime CREATION_DATE = ZonedDateTime.now();
     @Mock
     private GroupRepository groupRepository;
 
-    String ID = UUID.randomUUID().toString();
+    private String ID = UUID.randomUUID().toString();
 
-    private GroupMapper mapper;
     private GroupService service;
 
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        this.mapper = new GroupMapper();
+        GroupMapper mapper = new GroupMapper();
 
-        this.service = new GroupServiceImpl(this.mapper, this.groupRepository);
+        this.service = new GroupServiceImpl(mapper, this.groupRepository);
     }
 
     @Test
     void getGroupWithID() {
 
         //given
-        Group group = new Group(UUID.fromString(ID), NAME, ACTIVE, CREATION_DATE);
+        Group group = new Group(ID, NAME, ACTIVE, CREATION_DATE);
 
-        when(groupRepository.findById(any(UUID.class))).thenReturn(Optional.of(group));
+        when(groupRepository.findById(any(String.class))).thenReturn(Optional.of(group));
 
 
         //when
