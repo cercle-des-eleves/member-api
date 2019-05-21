@@ -13,7 +13,7 @@ public class Board extends Group{
 
     private List<Group> clubs;
 
-    public Board(UUID id, String name, Boolean active, ZonedDateTime creationDate, List<Group> clubs) {
+    public Board(String id, String name, Boolean active, ZonedDateTime creationDate, List<Group> clubs) {
         super(id, name, active, creationDate);
         this.clubs = clubs;
     }
