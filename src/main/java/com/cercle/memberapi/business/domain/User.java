@@ -4,15 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.ZonedDateTime;
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class Student {
-    private String uuid;
-    private String name;
+public class User {
+    private String id;
+    private String lastName;
     private String firstName;
     private String mail;
     private String password;
-    private ZonedDateTime createDate;
+    private ZonedDateTime creationDate;
 }
