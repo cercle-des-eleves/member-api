@@ -1,12 +1,19 @@
 package com.cercle.memberapi.business.domain;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 import java.time.ZonedDateTime;
-import java.util.UUID;
+
+
+
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Entity
+@DiscriminatorValue("Club")
 public class Club extends Group {
 
     public Club(String id, String name, Boolean active, ZonedDateTime creationDate) {
