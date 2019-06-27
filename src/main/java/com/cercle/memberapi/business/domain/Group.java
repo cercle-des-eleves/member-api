@@ -19,8 +19,8 @@ public class Group {
 
     @Id
     @Column(length = 128,updatable = false, nullable = false)
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @GeneratedValue(generator="system-id")
+    @GenericGenerator(name="system-id", strategy = "id")
     private String id;
 
     private String name;
