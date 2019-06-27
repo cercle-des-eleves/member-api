@@ -1,6 +1,6 @@
-package com.cercle.memberapi.api;
+package com.cercle.memberapi.api.v1;
 
-import com.cercle.memberapi.api.model.GroupDTO;
+import com.cercle.memberapi.api.v1.model.GroupDTO;
 import com.cercle.memberapi.business.domain.Group;
 import org.springframework.stereotype.Component;
 

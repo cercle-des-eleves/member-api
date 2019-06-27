@@ -1,4 +1,4 @@
-package com.cercle.memberapi.api.model;
+package com.cercle.memberapi.api.v1.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
