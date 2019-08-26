@@ -10,6 +10,7 @@ import java.time.ZonedDateTime;
 public class UserServiceImpl implements UserService {
     @Override
     public Member getStudentWithID(String id) {
-        return new Member(id, "Girard-Blanc", "Bastien", "b.girardblanc@mines-ales.org", "bgdu19",ZonedDateTime.now());
+        //TODO Pour montrer ce que ça retourne en Service mais à effectuer -> doit retourner un MemberDTO
+        return new Member(id, "Girard-Blanc", "Bastien", "b.girardblanc@mines-ales.org",ZonedDateTime.now(),null);
     }
 }

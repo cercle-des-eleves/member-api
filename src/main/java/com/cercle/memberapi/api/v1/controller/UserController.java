@@ -20,7 +20,8 @@ public class UserController {
 
     @GetMapping()
     public Member getStudents(){
-        return new Member("12","Pouzeratte","Alexis", "alexis.pouzeratte@mines-ales.org","bgdu78", ZonedDateTime.now());
+        //TODO Pour montrer ce que ça retourne en JSON mais à effectuer
+        return new Member("12","Pouzeratte","Alexis", "alexis.pouzeratte@mines-ales.org", ZonedDateTime.now(),null);
     }
 
     @GetMapping("{studentId}")

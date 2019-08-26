@@ -13,7 +13,9 @@ public class GroupMapper {
                 group.getId(),
                 group.getName(),
                 group.getActive(),
-                group.getCreationDate());
+                group.getCreationDate(),
+                group.getPresident(),
+                group.getMembers());
     }
 
     public Group toGroup(GroupDTO groupDTO) {
@@ -21,6 +23,8 @@ public class GroupMapper {
                 groupDTO.getId(),
                 groupDTO.getName(),
                 groupDTO.getActive(),
-                groupDTO.getCreationDate());
+                groupDTO.getCreationDate(),
+                groupDTO.getPresident(),
+                groupDTO.getMembers());
     }
 }
