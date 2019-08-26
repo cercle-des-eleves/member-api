@@ -1,15 +1,28 @@
 package com.cercle.memberapi.business.domain;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import java.time.ZonedDateTime;
+import java.util.List;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@Entity(name = "`user`")
 public class Member {
-    private Group group;
-    private User user;
-    private Role role;
+
+    @Id
+    @Column(length = 128,updatable = false, nullable = false)
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    private String id;
+    private String lastName;
+    private String firstName;
+    private String mail;
+    private ZonedDateTime creationDate;
+
+    @ManyToMany
+    private List<Group> groups;
 }

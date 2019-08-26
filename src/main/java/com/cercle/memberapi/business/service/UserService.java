@@ -1,7 +1,7 @@
 package com.cercle.memberapi.business.service;
 
-import com.cercle.memberapi.business.domain.User;
+import com.cercle.memberapi.business.domain.Member;
 
 public interface UserService {
-    User getStudentWithID(String id);
+    Member getStudentWithID(String id);
 }
