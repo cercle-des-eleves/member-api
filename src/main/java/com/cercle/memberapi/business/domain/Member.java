@@ -22,6 +22,8 @@ public class Member {
     private String firstName;
     private String mail;
     private ZonedDateTime creationDate;
+    //TODO Transformer en objet
+    private String promotion;
 
     @ManyToMany
     private List<Group> groups;
