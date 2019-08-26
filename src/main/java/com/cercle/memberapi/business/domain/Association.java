@@ -23,10 +23,6 @@ public class Association extends Group{
     @Column(length = 14)
     private String siret;
 
-    public Association(String  id,String siret, String name, Boolean active, ZonedDateTime creationDate, List<Group> groups) {
-        super(id, name, active, creationDate);
-        this.groups = groups;
-        this.siret = siret;
-    }
+
 
 }

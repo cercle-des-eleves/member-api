@@ -1,6 +1,6 @@
 package com.cercle.memberapi.api.v1.controller;
 
-import com.cercle.memberapi.business.domain.User;
+import com.cercle.memberapi.business.domain.Member;
 import com.cercle.memberapi.business.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,12 +19,13 @@ public class UserController {
     }
 
     @GetMapping()
-    public User getStudents(){
-        return new User("12","Pouzeratte","Alexis", "alexis.pouzeratte@mines-ales.org","bgdu78", ZonedDateTime.now());
+    public Member getStudents(){
+        //TODO Pour montrer ce que ça retourne en JSON mais à effectuer
+        return new Member("12","Pouzeratte","Alexis", "alexis.pouzeratte@mines-ales.org", ZonedDateTime.now(),null);
     }
 
     @GetMapping("{studentId}")
-    public User getStudentWithId(@PathVariable String studentId){
+    public Member getStudentWithId(@PathVariable String studentId){
         return userService.getStudentWithID(studentId);
     }
 }
