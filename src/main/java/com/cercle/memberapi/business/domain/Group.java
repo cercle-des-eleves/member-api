@@ -28,6 +28,8 @@ public class Group {
     private Boolean active;
     private ZonedDateTime creationDate;
 
+    // à fix :/
+    @ManyToOne
     private Member president;
 
     @ManyToMany

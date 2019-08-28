@@ -6,7 +6,10 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 @Data
 @AllArgsConstructor
@@ -27,4 +30,13 @@ public class Member {
 
     @ManyToMany
     private List<Group> groups;
+
+    public Member(String id, String lastName, String firstName, String mail, ZonedDateTime creationDate, String promotion) {
+        this.id = id;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.mail = mail;
+        this.creationDate = creationDate;
+        this.promotion = promotion;
+    }
 }
