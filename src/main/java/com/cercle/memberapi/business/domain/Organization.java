@@ -13,10 +13,10 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
-@Entity(name = "`group`")
+@Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "group_type")
-public class Group {
+@DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "organization_type")
+public class Organization {
 
     @Id
     @Column(length = 128,updatable = false, nullable = false)
@@ -34,7 +34,6 @@ public class Group {
 
     @ManyToMany
     private List<Member> members;
-
 }
 
 

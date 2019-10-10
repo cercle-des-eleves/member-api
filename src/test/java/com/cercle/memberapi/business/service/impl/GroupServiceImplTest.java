@@ -2,8 +2,8 @@
 //
 //import com.cercle.memberapi.api.v1.GroupMapper;
 //import com.cercle.memberapi.api.v1.model.GroupDTO;
-//import com.cercle.memberapi.business.domain.Group;
-//import com.cercle.memberapi.business.service.GroupService;
+//import com.cercle.memberapi.business.domain.Organization;
+//import com.cercle.memberapi.business.service.OrganizationService;
 //import com.cercle.memberapi.persistence.repository.GroupRepository;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@
 //
 //    private String ID = UUID.randomUUID().toString();
 //    private String ID2 = UUID.randomUUID().toString();
-//    private static final String NAME = "Group";
+//    private static final String NAME = "Organization";
 //    private static final boolean ACTIVE = true;
 //    private static final ZonedDateTime CREATION_DATE = ZonedDateTime.now();
 //
@@ -30,7 +30,7 @@
 //    private GroupRepository groupRepository;
 //
 //
-//    private GroupService service;
+//    private OrganizationService service;
 //
 //
 //    @BeforeEach
@@ -38,20 +38,20 @@
 //        MockitoAnnotations.initMocks(this);
 //        GroupMapper mapper = new GroupMapper();
 //
-//        this.service = new GroupServiceImpl(mapper, this.groupRepository);
+//        this.service = new OrganizationServiceImpl(mapper, this.groupRepository);
 //    }
 //
 //    @Test
 //    void getGroupWithIDTest() {
 //
 //        //given
-//        Group group = new Group(ID, NAME, ACTIVE, CREATION_DATE);
+//        Organization group = new Organization(ID, NAME, ACTIVE, CREATION_DATE);
 //
 //        when(groupRepository.findById(any(String.class))).thenReturn(Optional.of(group));
 //
 //
 //        //when
-//        GroupDTO result = service.getGroupWithID(ID.toString());
+//        GroupDTO result = service.getOrganizationWithID(ID.toString());
 //
 //        //then
 //        assertEquals(ID, result.getId());
@@ -68,13 +68,13 @@
 //
 //        assertThrows(RuntimeException.class,()->{
 //            //given
-//            Group group = new Group(ID, NAME, ACTIVE, CREATION_DATE);
+//            Organization group = new Organization(ID, NAME, ACTIVE, CREATION_DATE);
 //
 //            when(groupRepository.findById(any(String.class))).thenReturn(Optional.empty());
 //
 //
 //            //when
-//            GroupDTO result = service.getGroupWithID(ID.toString());
+//            GroupDTO result = service.getOrganizationWithID(ID.toString());
 //        });
 //
 //    }
@@ -83,15 +83,15 @@
 //    void getAllGroupsTest(){
 //
 //        //given
-//        Group group1 = new Group(ID, NAME, ACTIVE, CREATION_DATE);
-//        Group group2 = new Group(ID2, NAME, ACTIVE, CREATION_DATE);
+//        Organization group1 = new Organization(ID, NAME, ACTIVE, CREATION_DATE);
+//        Organization group2 = new Organization(ID2, NAME, ACTIVE, CREATION_DATE);
 //
-//        List<Group> groups = Arrays.asList(group1, group2);
+//        List<Organization> organizations = Arrays.asList(group1, group2);
 //
-//        when(groupRepository.findAll()).thenReturn(groups);
+//        when(groupRepository.findAll()).thenReturn(organizations);
 //
 //        //when
-//        List<GroupDTO> result = service.getAllGroups();
+//        List<GroupDTO> result = service.getAllOrganizations();
 //
 //        //then
 //
