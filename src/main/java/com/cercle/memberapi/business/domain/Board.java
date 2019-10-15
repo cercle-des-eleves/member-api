@@ -15,7 +15,7 @@ import java.util.List;
 public class Board extends Organization {
 
     @OneToMany
-    private List<Organization> clubs;
+    private List<Club> clubs;
 
 
 
