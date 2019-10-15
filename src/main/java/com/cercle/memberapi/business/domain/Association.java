@@ -3,10 +3,7 @@ package com.cercle.memberapi.business.domain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -20,7 +17,4 @@ public class Association extends Organization {
 
     @Column(length = 14)
     private String siret;
-
-
-
 }

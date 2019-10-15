@@ -9,7 +9,7 @@ import java.time.ZonedDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO {
+public class MemberDTO {
     private String id;
     private String lastName;
     private String firstName;

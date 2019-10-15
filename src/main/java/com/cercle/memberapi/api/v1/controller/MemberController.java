@@ -1,24 +1,21 @@
 package com.cercle.memberapi.api.v1.controller;
 
 import com.cercle.memberapi.business.domain.Member;
-import com.cercle.memberapi.business.service.UserService;
-import org.springframework.http.ResponseEntity;
+import com.cercle.memberapi.business.service.MemberService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.ZonedDateTime;
-import java.util.Collection;
-import java.util.Collections;
 
 @RestController
 @RequestMapping(path = "/students")
-public class UserController {
-    private UserService userService;
+public class MemberController {
+    private MemberService memberService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public MemberController(MemberService memberService) {
+        this.memberService = memberService;
     }
 
     @GetMapping()
@@ -30,6 +27,6 @@ public class UserController {
     @GetMapping("{studentId}")
     public Member getStudentWithId(@PathVariable String studentId){
 
-        return userService.getStudentWithID(studentId);
+        return memberService.getStudentWithID(studentId);
     }
 }
