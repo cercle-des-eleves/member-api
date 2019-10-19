@@ -14,6 +14,5 @@ public class MemberDTO {
     private String lastName;
     private String firstName;
     private String mail;
-    private String password;
     private ZonedDateTime creationDate;
 }
