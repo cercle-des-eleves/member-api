@@ -8,9 +8,4 @@ import java.util.Optional;
 
 public interface AssociationRepository extends JpaRepository<Association, String> {
 
-    @Override
-    Optional<Association> findById(String id);
-
-    @Override
-    List<Association> findAll();
 }

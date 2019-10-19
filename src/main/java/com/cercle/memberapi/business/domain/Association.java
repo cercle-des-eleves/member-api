@@ -3,13 +3,16 @@ package com.cercle.memberapi.business.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
 @Data
+@NoArgsConstructor
 @Entity
 @DiscriminatorValue("Asso")
 public class Association extends Organization {

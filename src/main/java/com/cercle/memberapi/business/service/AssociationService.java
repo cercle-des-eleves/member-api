@@ -1,6 +1,7 @@
 package com.cercle.memberapi.business.service;
 
 import com.cercle.memberapi.api.v1.model.AssociationDTO;
+import com.cercle.memberapi.api.v1.model.MemberDTO;
 import com.cercle.memberapi.api.v1.model.OrganizationDTO;
 import com.cercle.memberapi.business.domain.Association;
 import com.cercle.memberapi.business.domain.Member;
@@ -18,9 +19,9 @@ public interface AssociationService {
 
     AssociationDTO updateAssociation(Association association);
 
-    HttpStatus deleteAssociation(String id);
+    void deleteAssociation(String id);
 
-    List<Member> getAssociationMembers(String id);
+    List<MemberDTO> getAssociationMembers(String id);
 
     List<OrganizationDTO> getAssociationOrganizations(String id);
 }

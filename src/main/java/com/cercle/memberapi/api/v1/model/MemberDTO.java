@@ -16,4 +16,9 @@ public class MemberDTO {
     private String mail;
     private String password;
     private ZonedDateTime creationDate;
+    //TODO Transformer en objet
+    private String promotion;
+
+    public MemberDTO(String id, String lastName, String firstName, String mail, ZonedDateTime creationDate, String promotion) {
+    }
 }

@@ -18,6 +18,7 @@ import java.util.List;
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "organization_type")
 public class Organization {
 
+    //TODO need change incremental to real UUID
     @Id
     @Column(length = 128,updatable = false, nullable = false)
     @GeneratedValue(generator="system-uuid")
