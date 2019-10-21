@@ -12,6 +12,7 @@ import com.cercle.memberapi.business.domain.Organization;
 import com.cercle.memberapi.business.exception.ResourceNotFoundException;
 import com.cercle.memberapi.business.service.AssociationService;
 import com.cercle.memberapi.persistence.repository.AssociationRepository;
+import com.cercle.memberapi.persistence.repository.OrganizationRepository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -23,11 +24,13 @@ import java.util.stream.Collectors;
 public class AssociationServiceImpl implements AssociationService {
 
     private AssociationRepository associationRepository;
+    private OrganizationRepository organizationRepository;
     private AssociationMapper associationMapper;
     private OrganizationMapper organizationMapper;
 
-    public AssociationServiceImpl(AssociationRepository associationRepository, AssociationMapper associationMapper, OrganizationMapper organizationMapper) {
+    public AssociationServiceImpl(AssociationRepository associationRepository, OrganizationRepository organizationRepository, AssociationMapper associationMapper, OrganizationMapper organizationMapper) {
         this.associationRepository = associationRepository;
+        this.organizationRepository = organizationRepository;
         this.associationMapper = associationMapper;
         this.organizationMapper = organizationMapper;
     }
@@ -94,5 +97,35 @@ public class AssociationServiceImpl implements AssociationService {
 
         return association.map(value -> value.getOrganizations().stream().map(organizationMapper::toGroupDTO).collect(Collectors.toList()))
                 .orElseThrow(ResourceNotFoundException::new);
+    }
+
+    @Override
+    public AssociationDTO addAssociationOrganization(String associationId, String organizationId) {
+        Optional<Association> association = associationRepository.findById(associationId);
+        Optional<Organization> organization = organizationRepository.findById(organizationId);
+
+        if (association.isPresent() && organization.isPresent()) {
+            Association asso = association.get();
+            asso.getOrganizations().add(organization.get());
+            asso = associationRepository.save(asso);
+            return associationMapper.toAssociationDTO(asso);
+        } else {
+            throw new ResourceNotFoundException();
+        }
+    }
+
+    @Override
+    public AssociationDTO removeAssociationOrganization(String associationId, String organizationId) {
+        Optional<Association> association = associationRepository.findById(associationId);
+        Optional<Organization> organization = organizationRepository.findById(organizationId);
+
+        if (association.isPresent() && organization.isPresent()) {
+            Association asso = association.get();
+            asso.getOrganizations().remove(organization.get());
+            asso = associationRepository.save(asso);
+            return associationMapper.toAssociationDTO(asso);
+        } else {
+            throw new ResourceNotFoundException();
+        }
     }
 }

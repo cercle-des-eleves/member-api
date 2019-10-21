@@ -4,7 +4,7 @@ import com.cercle.memberapi.api.v1.OrganizationMapper;
 import com.cercle.memberapi.api.v1.model.OrganizationDTO;
 import com.cercle.memberapi.business.domain.Organization;
 import com.cercle.memberapi.business.service.OrganizationService;
-import com.cercle.memberapi.persistence.repository.OrganizationGateway;
+import com.cercle.memberapi.persistence.repository.OrganizationRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,24 +15,24 @@ import java.util.stream.Collectors;
 public class OrganizationServiceImpl implements OrganizationService {
 
     private OrganizationMapper organizationMapper;
-    private OrganizationGateway organizationGateway;
+    private OrganizationRepository organizationRepository;
 
-    public OrganizationServiceImpl(OrganizationMapper organizationMapper, OrganizationGateway organizationGateway) {
+    public OrganizationServiceImpl(OrganizationMapper organizationMapper, OrganizationRepository organizationRepository) {
         this.organizationMapper = organizationMapper;
-        this.organizationGateway = organizationGateway;
+        this.organizationRepository = organizationRepository;
     }
 
 
     @Override
     public OrganizationDTO getOrganizationWithID(String id) {
-        Optional<Organization> result = organizationGateway.findById(id);
+        Optional<Organization> result = organizationRepository.findById(id);
 
         return result.map(group -> organizationMapper.toGroupDTO(group)).orElseThrow(() -> new RuntimeException("Organization Not Found"));
     }
 
     @Override
     public List<OrganizationDTO> getAllOrganizations() {
-        List<Organization> result = organizationGateway.findAll();
+        List<Organization> result = organizationRepository.findAll();
 
         return result.stream()
                 .map(organizationMapper::toGroupDTO)

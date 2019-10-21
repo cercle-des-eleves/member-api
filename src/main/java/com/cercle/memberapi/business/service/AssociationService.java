@@ -24,4 +24,8 @@ public interface AssociationService {
     List<MemberDTO> getAssociationMembers(String id);
 
     List<OrganizationDTO> getAssociationOrganizations(String id);
+
+    AssociationDTO addAssociationOrganization(String associationId, String organizationId);
+
+    AssociationDTO removeAssociationOrganization(String associationId, String organizationId);
 }

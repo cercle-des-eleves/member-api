@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface OrganizationGateway extends JpaRepository<Organization, String> {
+public interface OrganizationRepository extends JpaRepository<Organization, String> {
 
     @Override
     Optional<Organization> findById(String id);
