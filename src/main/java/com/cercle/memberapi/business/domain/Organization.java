@@ -27,7 +27,9 @@ public class Organization {
 
     private String name;
     private Boolean active;
-    private ZonedDateTime creationDate;
+
+    @Column(updatable = false)
+    private ZonedDateTime creationDate = ZonedDateTime.now();
 
     // à fix :/
     @ManyToOne

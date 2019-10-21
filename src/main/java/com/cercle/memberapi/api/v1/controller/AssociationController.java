@@ -38,7 +38,7 @@ public class AssociationController {
      * @return
      */
     @PostMapping
-    public ResponseEntity<AssociationDTO> saveAssociation(Association association) {
+    public ResponseEntity<AssociationDTO> saveAssociation(@RequestBody Association association) {
         AssociationDTO result = associationService.saveAssociation(association);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -63,10 +63,7 @@ public class AssociationController {
      */
     @PutMapping("{associationId}")
     public ResponseEntity<AssociationDTO> updateAssociationById(@PathVariable String associationId, @RequestBody Association association) {
-        System.out.println(association.getActive());
-        System.out.println(associationService.getAssociationById(associationId));
         AssociationDTO asso = associationService.updateAssociation(association);
-
         return new ResponseEntity<>(asso, HttpStatus.OK);
     }
 
@@ -105,6 +102,32 @@ public class AssociationController {
     }
 
     /**
+     * Add a member to association
+     *
+     * @param associationId
+     * @param memberId
+     * @return
+     */
+    @PostMapping("{associationId}/members/{memberId}")
+    public ResponseEntity<AssociationDTO> addMemberToAssociation(@PathVariable String associationId, @PathVariable String memberId) {
+        AssociationDTO association = associationService.addAssociationMember(associationId, memberId);
+        return new ResponseEntity<>(association, HttpStatus.OK);
+    }
+
+    /**
+     * Remove a member from association
+     *
+     * @param associationId
+     * @param memberId
+     * @return
+     */
+    @DeleteMapping("{associationId}/members/{memberId}")
+    public ResponseEntity<AssociationDTO> removeMemberFromAssociation(@PathVariable String associationId, @PathVariable String memberId) {
+        AssociationDTO association = associationService.removeAssociationMember(associationId, memberId);
+        return new ResponseEntity<>(association, HttpStatus.OK);
+    }
+
+    /**
      * Add a organization to association
      *
      * @param associationId
@@ -129,6 +152,4 @@ public class AssociationController {
         AssociationDTO association = associationService.removeAssociationOrganization(associationId, organizationId);
         return new ResponseEntity<>(association, HttpStatus.OK);
     }
-
-    
 }

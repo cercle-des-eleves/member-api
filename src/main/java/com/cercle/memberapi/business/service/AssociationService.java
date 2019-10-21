@@ -28,4 +28,8 @@ public interface AssociationService {
     AssociationDTO addAssociationOrganization(String associationId, String organizationId);
 
     AssociationDTO removeAssociationOrganization(String associationId, String organizationId);
+
+    AssociationDTO addAssociationMember(String associationId, String memberId);
+
+    AssociationDTO removeAssociationMember(String associationId, String memberId);
 }
