@@ -2,6 +2,7 @@ package com.cercle.memberapi.api.v1.controller;
 
 import com.cercle.memberapi.business.domain.Member;
 import com.cercle.memberapi.business.service.MemberService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
