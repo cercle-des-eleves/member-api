@@ -2,9 +2,8 @@ package com.cercle.memberapi.api.v1.controller;
 
 import com.cercle.memberapi.authentication.model.User;
 import com.cercle.memberapi.persistence.repository.UserRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,8 +24,8 @@ public class AuthController {
      * @return
      */
     @PostMapping
-    public boolean saveUser(User user) {
+    public User saveUser(@RequestBody User user) {
         this.userRepository.save(user);
-        return true;
+        return user;
     }
 }
