@@ -1,17 +1,13 @@
 package com.cercle.memberapi.api.v1;
 
-import com.cercle.memberapi.api.v1.model.AssociationDTO;
 import com.cercle.memberapi.api.v1.model.MemberDTO;
-import com.cercle.memberapi.api.v1.model.OrganizationDTO;
-import com.cercle.memberapi.business.domain.Association;
 import com.cercle.memberapi.business.domain.Member;
-import com.cercle.memberapi.business.domain.Organization;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MemberMapper {
 
-    public static MemberDTO toMemberDTO(Member member) {
+    public MemberDTO toMemberDTO(Member member) {
         return new MemberDTO(
                 member.getId(),
                 member.getLastName(),

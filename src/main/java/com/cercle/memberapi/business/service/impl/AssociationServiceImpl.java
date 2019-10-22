@@ -29,15 +29,17 @@ public class AssociationServiceImpl implements AssociationService {
     private MemberRepository memberRepository;
     private AssociationMapper associationMapper;
     private OrganizationMapper organizationMapper;
+    private MemberMapper memberMapper;
 
     public AssociationServiceImpl(AssociationRepository associationRepository,
                                   OrganizationRepository organizationRepository, MemberRepository memberRepository,
-                                  AssociationMapper associationMapper, OrganizationMapper organizationMapper) {
+                                  AssociationMapper associationMapper, OrganizationMapper organizationMapper, MemberMapper memberMapper) {
         this.associationRepository = associationRepository;
         this.organizationRepository = organizationRepository;
         this.memberRepository = memberRepository;
         this.associationMapper = associationMapper;
         this.organizationMapper = organizationMapper;
+        this.memberMapper = memberMapper;
     }
 
     /**
@@ -87,7 +89,7 @@ public class AssociationServiceImpl implements AssociationService {
         Optional<Association> association = associationRepository.findById(id);
         if (association.isPresent()) {
             List<Member> members = association.get().getMembers();
-            return members.stream().map(MemberMapper::toMemberDTO).collect(Collectors.toList());
+            return members.stream().map(memberMapper::toMemberDTO).collect(Collectors.toList());
         } else {
             throw new ResourceNotFoundException();
         }

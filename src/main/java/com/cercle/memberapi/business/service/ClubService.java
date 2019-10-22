@@ -22,5 +22,5 @@ public interface ClubService {
 
     ClubDTO addClubMember(String clubId, String memberId);
 
-    ClubDTO removeClubMembers(String clubId, String memberId);
+    ClubDTO removeClubMember(String clubId, String memberId);
 }
