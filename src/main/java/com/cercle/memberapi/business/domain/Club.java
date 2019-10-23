@@ -1,5 +1,6 @@
 package com.cercle.memberapi.business.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@AllArgsConstructor
 @Entity
 @DiscriminatorValue("Club")
 public class Club extends Organization {
