@@ -1,7 +1,9 @@
 package com.cercle.memberapi.business.domain;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -10,13 +12,14 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity()
 public class Member {
 
     @Id
-    @Column(length = 128,updatable = false, nullable = false)
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @Column(length = 128, updatable = false, nullable = false, name = "member_id")
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
     private String lastName;
     private String firstName;
@@ -25,10 +28,12 @@ public class Member {
     //TODO Transformer en objet
     private String promotion;
 
-    @ManyToMany
+    @JsonIgnore
+    @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY)
     private List<Organization> organizations;
 
-    public Member(String id, String lastName, String firstName, String mail, ZonedDateTime creationDate, String promotion) {
+    public Member(String id, String lastName, String firstName, String mail, ZonedDateTime creationDate,
+                  String promotion) {
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;

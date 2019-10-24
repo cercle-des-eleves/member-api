@@ -4,10 +4,7 @@ import com.cercle.memberapi.business.domain.Member;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.ManyToMany;
 import java.time.ZonedDateTime;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -18,5 +15,4 @@ public class OrganizationDTO {
     private Boolean active;
     private ZonedDateTime creationDate;
     private Member president;
-    private List<Member> members;
 }

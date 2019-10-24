@@ -1,5 +1,6 @@
 package com.cercle.memberapi.api.v1.model;
 
+import com.cercle.memberapi.business.domain.Member;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,11 +11,13 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberDTO {
+public class AssociationDetailedDTO {
     private String id;
-    private String lastName;
-    private String firstName;
-    private String mail;
+    private String name;
+    private Boolean active;
     private ZonedDateTime creationDate;
-    private String promotion;
+    private Member president;
+    private List<MemberDTO> members;
+    private List<OrganizationDTO> organizations;
+    private String siret;
 }

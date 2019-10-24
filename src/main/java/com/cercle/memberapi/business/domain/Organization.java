@@ -1,5 +1,8 @@
 package com.cercle.memberapi.business.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +11,6 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.time.ZonedDateTime;
 import java.util.List;
-
 
 @AllArgsConstructor
 @Data
@@ -20,9 +22,9 @@ public class Organization {
 
     //TODO need change incremental to real UUID
     @Id
-    @Column(length = 128,updatable = false, nullable = false)
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @Column(length = 128, updatable = false, nullable = false, name = "organization_id")
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
 
     private String name;
@@ -34,8 +36,10 @@ public class Organization {
     // à fix :/
     @ManyToOne
     private Member president;
-
-    @ManyToMany
+    
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "organization_members", joinColumns = {@JoinColumn(name = "organization_id")},
+        inverseJoinColumns = {@JoinColumn(name = "member_id")})
     private List<Member> members;
 }
 

@@ -1,6 +1,7 @@
 package com.cercle.memberapi.business.service;
 
 import com.cercle.memberapi.api.v1.model.AssociationDTO;
+import com.cercle.memberapi.api.v1.model.AssociationDetailedDTO;
 import com.cercle.memberapi.api.v1.model.MemberDTO;
 import com.cercle.memberapi.api.v1.model.OrganizationDTO;
 import com.cercle.memberapi.business.domain.Association;
@@ -15,13 +16,13 @@ public interface AssociationService {
 
     AssociationDTO saveAssociation(Association association);
 
-    AssociationDTO getAssociationById(String id);
+    AssociationDetailedDTO getAssociationById(String id);
 
     AssociationDTO updateAssociation(Association association);
 
     void deleteAssociation(String id);
 
-    List<MemberDTO> getAssociationMembers(String id);
+    List<MemberDTO> getAssociationMembers(String id, Integer pageNo, Integer pageSize, String sortBy);
 
     List<OrganizationDTO> getAssociationOrganizations(String id);
 

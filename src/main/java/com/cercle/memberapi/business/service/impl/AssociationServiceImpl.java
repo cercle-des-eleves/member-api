@@ -4,6 +4,7 @@ import com.cercle.memberapi.api.v1.AssociationMapper;
 import com.cercle.memberapi.api.v1.MemberMapper;
 import com.cercle.memberapi.api.v1.OrganizationMapper;
 import com.cercle.memberapi.api.v1.model.AssociationDTO;
+import com.cercle.memberapi.api.v1.model.AssociationDetailedDTO;
 import com.cercle.memberapi.api.v1.model.MemberDTO;
 import com.cercle.memberapi.api.v1.model.OrganizationDTO;
 import com.cercle.memberapi.business.domain.Association;
@@ -34,15 +35,18 @@ public class AssociationServiceImpl implements AssociationService {
     private MemberRepository memberRepository;
     private AssociationMapper associationMapper;
     private OrganizationMapper organizationMapper;
+    private MemberMapper memberMapper;
 
     public AssociationServiceImpl(AssociationRepository associationRepository,
                                   OrganizationRepository organizationRepository, MemberRepository memberRepository,
-                                  AssociationMapper associationMapper, OrganizationMapper organizationMapper) {
+                                  AssociationMapper associationMapper, OrganizationMapper organizationMapper,
+                                  MemberMapper memberMapper) {
         this.associationRepository = associationRepository;
         this.organizationRepository = organizationRepository;
         this.memberRepository = memberRepository;
         this.associationMapper = associationMapper;
         this.organizationMapper = organizationMapper;
+        this.memberMapper = memberMapper;
     }
 
     /**
@@ -56,12 +60,14 @@ public class AssociationServiceImpl implements AssociationService {
 
         Page<Association> pagedResult = associationRepository.findAll(paging);
 
-        if(pagedResult.hasContent()) {
-            return pagedResult.getContent().stream().map(associationMapper::toAssociationDTO).collect(Collectors.toList());
+        if (pagedResult.hasContent()) {
+            return pagedResult.getContent()
+                .stream()
+                .map(associationMapper::toAssociationDTO)
+                .collect(Collectors.toList());
         } else {
             return new ArrayList<>();
         }
-        //List<Association> result = associationRepository.findAll();
     }
 
     @Override
@@ -72,9 +78,9 @@ public class AssociationServiceImpl implements AssociationService {
     }
 
     @Override
-    public AssociationDTO getAssociationById(String id) {
+    public AssociationDetailedDTO getAssociationById(String id) {
         return associationRepository.findById(id)
-            .map(association -> associationMapper.toAssociationDTO(association))
+            .map(association -> associationMapper.toAssociationDetailedDTO(association))
             .orElseThrow(ResourceNotFoundException::new);
     }
 
@@ -95,15 +101,22 @@ public class AssociationServiceImpl implements AssociationService {
     }
 
     @Override
-    public List<MemberDTO> getAssociationMembers(String id) {
+    public List<MemberDTO> getAssociationMembers(String id, Integer pageNo, Integer pageSize, String sortBy) {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
         Optional<Association> association = associationRepository.findById(id);
         if (association.isPresent()) {
-            List<Member> members = association.get().getMembers();
-            return members.stream().map(MemberMapper::toMemberDTO).collect(Collectors.toList());
+            Page<Member> pagedResult = memberRepository.getAllMembersByOrganization(association.get().getId(), paging);
+            System.out.println(pagedResult);
+
+            if (pagedResult.hasContent()) {
+                return pagedResult.getContent().stream().map(memberMapper::toMemberDTO).collect(Collectors.toList());
+            } else {
+                return new ArrayList<>();
+            }
         } else {
             throw new ResourceNotFoundException();
         }
-
     }
 
     @Override
@@ -111,7 +124,7 @@ public class AssociationServiceImpl implements AssociationService {
         Optional<Association> association = associationRepository.findById(id);
 
         return association.map(
-            value -> value.getOrganizations().stream().map(organizationMapper::toGroupDTO).collect(Collectors.toList()))
+            value -> value.getOrganizations().stream().map(organizationMapper::toOrganizationDTO).collect(Collectors.toList()))
             .orElseThrow(ResourceNotFoundException::new);
     }
 
@@ -152,7 +165,7 @@ public class AssociationServiceImpl implements AssociationService {
 
         if (association.isPresent() && member.isPresent()) {
             Association asso = association.get();
-            asso.getMembers().remove(member.get());
+            asso.getMembers().add(member.get());
             asso = associationRepository.save(asso);
             return associationMapper.toAssociationDTO(asso);
         } else {

@@ -27,7 +27,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     public OrganizationDTO getOrganizationWithID(String id) {
         Optional<Organization> result = organizationRepository.findById(id);
 
-        return result.map(group -> organizationMapper.toGroupDTO(group)).orElseThrow(() -> new RuntimeException("Organization Not Found"));
+        return result.map(group -> organizationMapper.toOrganizationDTO(group)).orElseThrow(() -> new RuntimeException("Organization Not Found"));
     }
 
     @Override
@@ -35,7 +35,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         List<Organization> result = organizationRepository.findAll();
 
         return result.stream()
-                .map(organizationMapper::toGroupDTO)
+                .map(organizationMapper::toOrganizationDTO)
                 .collect(Collectors.toList());
     }
 }

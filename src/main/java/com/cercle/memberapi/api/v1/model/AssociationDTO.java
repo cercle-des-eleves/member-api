@@ -1,13 +1,9 @@
 package com.cercle.memberapi.api.v1.model;
-
 import com.cercle.memberapi.business.domain.Member;
-import com.cercle.memberapi.business.domain.Organization;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.ZonedDateTime;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -18,8 +14,6 @@ public class AssociationDTO {
     private Boolean active;
     private ZonedDateTime creationDate;
     private Member president;
-    private List<Member> members;
-    private List<Organization> organizations;
     private String siret;
 }
 
