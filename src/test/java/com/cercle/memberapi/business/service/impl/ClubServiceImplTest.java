@@ -20,7 +20,7 @@ import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 class ClubServiceImplTest {
@@ -45,7 +45,7 @@ class ClubServiceImplTest {
     void shouldReturnClubList() {
 
         //given
-        Page<Club> pages = new PageImpl<Club>(
+        Page<Club> pages = new PageImpl<>(
                 Arrays.asList(
                         new Club("id", "name", true, ZonedDateTime.now(), null, null),
                         new Club("id", "name", true, ZonedDateTime.now(), null, null),
