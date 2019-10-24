@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface AssociationService {
 
-    List<AssociationDTO> getAllAssociations();
+    List<AssociationDTO> getAllAssociations(Integer pageNo, Integer pageSize, String sortBy);
 
     AssociationDTO saveAssociation(Association association);
 

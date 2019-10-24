@@ -14,9 +14,14 @@ import com.cercle.memberapi.business.service.AssociationService;
 import com.cercle.memberapi.persistence.repository.AssociationRepository;
 import com.cercle.memberapi.persistence.repository.MemberRepository;
 import com.cercle.memberapi.persistence.repository.OrganizationRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -48,10 +53,17 @@ public class AssociationServiceImpl implements AssociationService {
      * @return List<AssociationDTO>
      */
     @Override
-    public List<AssociationDTO> getAllAssociations() {
-        List<Association> result = associationRepository.findAll();
+    public List<AssociationDTO> getAllAssociations(Integer pageNo, Integer pageSize, String sortBy) {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 
-        return result.stream().map(associationMapper::toAssociationDTO).collect(Collectors.toList());
+        Page<Association> pagedResult = associationRepository.findAll(paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent().stream().map(associationMapper::toAssociationDTO).collect(Collectors.toList());
+        } else {
+            return new ArrayList<>();
+        }
+        //List<Association> result = associationRepository.findAll();
     }
 
     @Override
