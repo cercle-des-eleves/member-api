@@ -1,3 +1,4 @@
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -9,4 +10,5 @@ spring:
       ddl-auto: create
       use-new-id-generator-mappings: true
     database: mysql
-
+server:
+  port: 8000
