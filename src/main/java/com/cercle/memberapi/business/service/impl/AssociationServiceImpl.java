@@ -1,8 +1,5 @@
 package com.cercle.memberapi.business.service.impl;
 
-import com.cercle.memberapi.api.v1.AssociationMapper;
-import com.cercle.memberapi.api.v1.MemberMapper;
-import com.cercle.memberapi.api.v1.OrganizationMapper;
 import com.cercle.memberapi.api.v1.model.AssociationDTO;
 import com.cercle.memberapi.api.v1.model.AssociationDetailedDTO;
 import com.cercle.memberapi.api.v1.model.MemberDTO;
@@ -12,6 +9,9 @@ import com.cercle.memberapi.business.domain.Member;
 import com.cercle.memberapi.business.domain.Organization;
 import com.cercle.memberapi.business.exception.ResourceNotFoundException;
 import com.cercle.memberapi.business.service.AssociationService;
+import com.cercle.memberapi.mapper.AssociationMapper;
+import com.cercle.memberapi.mapper.MemberMapper;
+import com.cercle.memberapi.mapper.OrganizationMapper;
 import com.cercle.memberapi.persistence.repository.AssociationRepository;
 import com.cercle.memberapi.persistence.repository.MemberRepository;
 import com.cercle.memberapi.persistence.repository.OrganizationRepository;
@@ -55,16 +55,16 @@ public class AssociationServiceImpl implements AssociationService {
      * @return List<AssociationDTO>
      */
     @Override
-    public List<AssociationDTO> getAllAssociations(Integer pageNo, Integer pageSize, String sortBy) {
+    public List<AssociationDetailedDTO> getAllAssociations(Integer pageNo, Integer pageSize, String sortBy) {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 
         Page<Association> pagedResult = associationRepository.findAll(paging);
 
         if (pagedResult.hasContent()) {
             return pagedResult.getContent()
-                .stream()
-                .map(associationMapper::toAssociationDTO)
-                .collect(Collectors.toList());
+                    .stream()
+                    .map(associationMapper::toAssociationDetailedDTO)
+                    .collect(Collectors.toList());
         } else {
             return new ArrayList<>();
         }

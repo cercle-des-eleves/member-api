@@ -1,10 +1,10 @@
 package com.cercle.memberapi.business.service.impl;
 
-import com.cercle.memberapi.api.v1.ClubMapper;
-import com.cercle.memberapi.api.v1.MemberMapper;
 import com.cercle.memberapi.api.v1.model.ClubDTO;
 import com.cercle.memberapi.business.domain.Club;
 import com.cercle.memberapi.business.service.ClubService;
+import com.cercle.memberapi.mapper.ClubMapper;
+import com.cercle.memberapi.mapper.MemberMapper;
 import com.cercle.memberapi.persistence.repository.ClubRepository;
 import com.cercle.memberapi.persistence.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +20,8 @@ import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 class ClubServiceImplTest {

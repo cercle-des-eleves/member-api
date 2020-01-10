@@ -1,9 +1,9 @@
 package com.cercle.memberapi.business.service.impl;
 
-import com.cercle.memberapi.api.v1.OrganizationMapper;
 import com.cercle.memberapi.api.v1.model.OrganizationDTO;
 import com.cercle.memberapi.business.domain.Organization;
 import com.cercle.memberapi.business.service.OrganizationService;
+import com.cercle.memberapi.mapper.OrganizationMapper;
 import com.cercle.memberapi.persistence.repository.OrganizationRepository;
 import org.springframework.stereotype.Service;
 

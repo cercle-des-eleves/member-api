@@ -24,6 +24,9 @@ ext {
     mapstructVersion = "1.3.1.Final"
 }
 
+configurations {
+    mapstruct
+}
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'

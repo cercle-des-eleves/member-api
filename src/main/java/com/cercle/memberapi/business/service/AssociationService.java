@@ -5,14 +5,12 @@ import com.cercle.memberapi.api.v1.model.AssociationDetailedDTO;
 import com.cercle.memberapi.api.v1.model.MemberDTO;
 import com.cercle.memberapi.api.v1.model.OrganizationDTO;
 import com.cercle.memberapi.business.domain.Association;
-import com.cercle.memberapi.business.domain.Member;
-import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
 public interface AssociationService {
 
-    List<AssociationDTO> getAllAssociations(Integer pageNo, Integer pageSize, String sortBy);
+    List<AssociationDetailedDTO> getAllAssociations(Integer pageNo, Integer pageSize, String sortBy);
 
     AssociationDTO saveAssociation(Association association);
 

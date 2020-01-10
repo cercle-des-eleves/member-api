@@ -27,10 +27,10 @@ public class AssociationController {
      * @return
      */
     @GetMapping
-    public ResponseEntity<List<AssociationDTO>> getAllAssociations(@RequestParam(defaultValue = "0") Integer pageNo,
-                                                                   @RequestParam(defaultValue = "10") Integer pageSize,
-                                                                   @RequestParam(defaultValue = "id") String sortBy) {
-        List<AssociationDTO> associations = associationService.getAllAssociations(pageNo, pageSize, sortBy);
+    public ResponseEntity<List<AssociationDetailedDTO>> getAllAssociations(@RequestParam(defaultValue = "0") Integer pageNo,
+                                                                           @RequestParam(defaultValue = "10") Integer pageSize,
+                                                                           @RequestParam(defaultValue = "id") String sortBy) {
+        List<AssociationDetailedDTO> associations = associationService.getAllAssociations(pageNo, pageSize, sortBy);
         return new ResponseEntity<>(associations, HttpStatus.OK);
     }
 
