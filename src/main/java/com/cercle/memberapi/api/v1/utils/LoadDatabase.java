@@ -3,16 +3,13 @@ package com.cercle.memberapi.api.v1.utils;
 import com.cercle.memberapi.business.domain.Association;
 import com.cercle.memberapi.business.domain.Member;
 import com.cercle.memberapi.business.domain.Organization;
-import com.cercle.memberapi.business.service.MemberService;
 import com.cercle.memberapi.persistence.repository.AssociationRepository;
 import com.cercle.memberapi.persistence.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.lang.reflect.Array;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,18 +25,25 @@ public class LoadDatabase {
             List<Member> members = new ArrayList<>();
             members.add(member1);
             members.add(member2);
-            Association association = associationRepository.save(new Association(null,"Asso1", true, ZonedDateTime.now(),
-                null, new ArrayList<Member>(),  new ArrayList<Organization>(), "SIRETTEST"));
+
+            Association associationTestDto = associationRepository.save(new Association(null, "AssoTestDto", true, ZonedDateTime.now(),
+                    null, new ArrayList<Member>(), new ArrayList<Organization>(), "SIRETTEST"));
+
+            Association association = new Association(null, "Asso1", true, ZonedDateTime.now(),
+                    null, new ArrayList<Member>(), new ArrayList<Organization>(), "SIRETTEST");
+
+            association = associationRepository.save(association);
 
             association.setMembers(members);
+            association.getOrganizations().add(associationTestDto);
             associationRepository.save(association);
 
-            log.info("Preloading " + associationRepository.save(new Association(null,"Asso2", true, ZonedDateTime.now(),
-                    null, new ArrayList<Member>(),  new ArrayList<Organization>(), "SIRETTEST")));
-            log.info("Preloading " + associationRepository.save(new Association(null,"Asso3", true, ZonedDateTime.now(),
-                    null, new ArrayList<Member>(),  new ArrayList<Organization>(), "SIRETTEST")));
-            log.info("Preloading " + associationRepository.save(new Association(null,"Asso4", true, ZonedDateTime.now(),
-                    null, new ArrayList<Member>(),  new ArrayList<Organization>(), "SIRETTEST")));
+//            log.info("Preloading " + associationRepository.save(new Association(null,"Asso2", true, ZonedDateTime.now(),
+//                    null, new ArrayList<Member>(),  new ArrayList<Organization>(), "SIRETTEST")));
+//            log.info("Preloading " + associationRepository.save(new Association(null,"Asso3", true, ZonedDateTime.now(),
+//                    null, new ArrayList<Member>(),  new ArrayList<Organization>(), "SIRETTEST")));
+//            log.info("Preloading " + associationRepository.save(new Association(null,"Asso4", true, ZonedDateTime.now(),
+//                    null, new ArrayList<Member>(),  new ArrayList<Organization>(), "SIRETTEST")));
 
         };
     }
