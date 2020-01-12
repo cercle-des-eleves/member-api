@@ -21,14 +21,23 @@ import java.util.List;
 public class Association extends Organization {
 
     @OneToMany
-    private List<Organization> organizations;
+    private List<Association> associations;
+
+    @OneToMany
+    private List<Board> boards;
+
+    @OneToMany
+    private List<Club> clubs;
 
     @Column(length = 14)
     private String siret;
 
-    public Association(String id, String name, Boolean active, ZonedDateTime creationDate, Member president, List<Member> members, List<Organization> organizations, String siret) {
+    public Association(String id, String name, Boolean active, ZonedDateTime creationDate, Member president, List<Member> members, List<Association> associations,
+            List<Board> boards, List<Club> clubs, String siret) {
         super(id, name, active, creationDate, president, members);
-        this.organizations = organizations;
+        this.associations = associations;
+        this.boards = boards;
+        this.clubs = clubs;
         this.siret = siret;
     }
 }
