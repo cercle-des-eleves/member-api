@@ -1,8 +1,9 @@
 package com.cercle.memberapi.api.v1.utils;
 
 import com.cercle.memberapi.business.domain.Association;
+import com.cercle.memberapi.business.domain.Board;
+import com.cercle.memberapi.business.domain.Club;
 import com.cercle.memberapi.business.domain.Member;
-import com.cercle.memberapi.business.domain.Organization;
 import com.cercle.memberapi.persistence.repository.AssociationRepository;
 import com.cercle.memberapi.persistence.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -27,15 +28,15 @@ public class LoadDatabase {
             members.add(member2);
 
             Association associationTestDto = associationRepository.save(new Association(null, "AssoTestDto", true, ZonedDateTime.now(),
-                    null, new ArrayList<Member>(), new ArrayList<Organization>(), "SIRETTEST"));
+                    null, new ArrayList<Member>(), new ArrayList<Association>(), new ArrayList<Board>(), new ArrayList<Club>(), "SIRETTEST"));
 
             Association association = new Association(null, "Asso1", true, ZonedDateTime.now(),
-                    null, new ArrayList<Member>(), new ArrayList<Organization>(), "SIRETTEST");
+                    null, new ArrayList<Member>(), new ArrayList<Association>(), new ArrayList<Board>(), new ArrayList<Club>(), "SIRETTEST");
 
             association = associationRepository.save(association);
 
             association.setMembers(members);
-            association.getOrganizations().add(associationTestDto);
+            association.getAssociations().add(associationTestDto);
             associationRepository.save(association);
 
 //            log.info("Preloading " + associationRepository.save(new Association(null,"Asso2", true, ZonedDateTime.now(),

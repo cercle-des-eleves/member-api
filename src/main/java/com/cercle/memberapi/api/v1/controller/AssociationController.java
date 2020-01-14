@@ -3,7 +3,6 @@ package com.cercle.memberapi.api.v1.controller;
 import com.cercle.memberapi.api.v1.model.AssociationDTO;
 import com.cercle.memberapi.api.v1.model.AssociationDetailedDTO;
 import com.cercle.memberapi.api.v1.model.MemberDTO;
-import com.cercle.memberapi.api.v1.model.OrganizationDTO;
 import com.cercle.memberapi.business.domain.Association;
 import com.cercle.memberapi.business.service.AssociationService;
 import lombok.AllArgsConstructor;
@@ -95,19 +94,19 @@ public class AssociationController {
                                                                    @RequestParam(defaultValue = "10") Integer pageSize,
                                                                    @RequestParam(defaultValue = "id") String sortBy) {
         return new ResponseEntity<>(associationService.getAssociationMembers(associationId, pageNo, pageSize, sortBy),
-            HttpStatus.OK);
+                HttpStatus.OK);
     }
 
-    /**
-     * Retrieve organizations of association
-     *
-     * @param associationId
-     * @return a list of Organization
-     */
-    @GetMapping("{associationId}/organizations")
-    public ResponseEntity<List<OrganizationDTO>> getOrganizationsByAssociation(@PathVariable String associationId) {
-        return new ResponseEntity<>(associationService.getAssociationOrganizations(associationId), HttpStatus.OK);
-    }
+//    /**
+//     * Retrieve organizations of association
+//     *
+//     * @param associationId
+//     * @return a list of Organization
+//     */
+//    @GetMapping("{associationId}/organizations")
+//    public ResponseEntity<List<OrganizationDTO>> getOrganizationsByAssociation(@PathVariable String associationId) {
+//        return new ResponseEntity<>(associationService.getAssociationOrganizations(associationId), HttpStatus.OK);
+//    }
 
     /**
      * Add a member to association
@@ -137,31 +136,31 @@ public class AssociationController {
         return new ResponseEntity<>(association, HttpStatus.OK);
     }
 
-    /**
-     * Add a organization to association
-     *
-     * @param associationId
-     * @param organizationId
-     * @return the saved entity
-     */
-    @PostMapping("{associationId}/organizations/{organizationId}")
-    public ResponseEntity<AssociationDTO> addOrganizationToAssociation(@PathVariable String associationId,
-                                                                       @PathVariable String organizationId) {
-        AssociationDTO association = associationService.addAssociationOrganization(associationId, organizationId);
-        return new ResponseEntity<>(association, HttpStatus.OK);
-    }
-
-    /**
-     * Remove a organization from association
-     *
-     * @param associationId
-     * @param organizationId
-     * @return the saved entity
-     */
-    @DeleteMapping("{associationId}/organizations/{organizationId}")
-    public ResponseEntity<AssociationDTO> removeOrganizationFromAssociation(@PathVariable String associationId,
-                                                                            @PathVariable String organizationId) {
-        AssociationDTO association = associationService.removeAssociationOrganization(associationId, organizationId);
-        return new ResponseEntity<>(association, HttpStatus.OK);
-    }
+//    /**
+//     * Add a organization to association
+//     *
+//     * @param associationId
+//     * @param organizationId
+//     * @return the saved entity
+//     */
+//    @PostMapping("{associationId}/organizations/{organizationId}")
+//    public ResponseEntity<AssociationDTO> addOrganizationToAssociation(@PathVariable String associationId,
+//                                                                       @PathVariable String organizationId) {
+//        AssociationDTO association = associationService.addAssociationOrganization(associationId, organizationId);
+//        return new ResponseEntity<>(association, HttpStatus.OK);
+//    }
+//
+//    /**
+//     * Remove a organization from association
+//     *
+//     * @param associationId
+//     * @param organizationId
+//     * @return the saved entity
+//     */
+//    @DeleteMapping("{associationId}/organizations/{organizationId}")
+//    public ResponseEntity<AssociationDTO> removeOrganizationFromAssociation(@PathVariable String associationId,
+//                                                                            @PathVariable String organizationId) {
+//        AssociationDTO association = associationService.removeAssociationOrganization(associationId, organizationId);
+//        return new ResponseEntity<>(association, HttpStatus.OK);
+//    }
 }
