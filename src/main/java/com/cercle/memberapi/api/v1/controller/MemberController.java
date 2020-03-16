@@ -35,7 +35,7 @@ public class MemberController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public Member saveMember(@RequestBody Member member, HttpServletRequest request) {
+    public Member createMember(@RequestBody Member member, HttpServletRequest request) {
         return memberService.save(member);
     }
 }
