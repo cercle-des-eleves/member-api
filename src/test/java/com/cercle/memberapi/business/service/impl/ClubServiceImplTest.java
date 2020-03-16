@@ -9,6 +9,7 @@ import com.cercle.memberapi.persistence.repository.ClubRepository;
 import com.cercle.memberapi.persistence.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
@@ -30,9 +31,13 @@ class ClubServiceImplTest {
     @Mock
     private MemberRepository memberRepository;
 
-    private ClubMapper clubMapper = new ClubMapper();
-    private MemberMapper memberMapper = new MemberMapper();
+    @Mock
+    private ClubMapper clubMapper;
 
+    @Mock
+    private MemberMapper memberMapper;
+
+    @InjectMocks
     private ClubService service;
 
     @BeforeEach
@@ -63,6 +68,7 @@ class ClubServiceImplTest {
         List<Club> clubs = pages.getContent();
         assertNotNull(result);
         assertEquals(clubs.size(), result.size());
+        
 
 
 
