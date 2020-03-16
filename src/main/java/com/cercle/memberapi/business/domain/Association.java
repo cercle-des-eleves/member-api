@@ -4,21 +4,39 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.UUID;
 
-@EqualsAndHashCode(callSuper = true)
-@AllArgsConstructor
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@DiscriminatorValue("Asso")
-public class Association extends Organization {
+public class Association {
+
+    @Id
+    @Column(updatable = false, nullable = false)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
+
+    private String name;
+
+    private Boolean active;
+
+    @Column(updatable = false)
+    private ZonedDateTime creationDate = ZonedDateTime.now();
+
+    @ManyToOne
+    private Member president;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "association_members", joinColumns = {@JoinColumn(name = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "member_id")})
+    private List<Member> members;
 
     @OneToMany
     private List<Association> associations;
@@ -31,13 +49,4 @@ public class Association extends Organization {
 
     @Column(length = 14)
     private String siret;
-
-    public Association(String id, String name, Boolean active, ZonedDateTime creationDate, Member president, List<Member> members, List<Association> associations,
-            List<Board> boards, List<Club> clubs, String siret) {
-        super(id, name, active, creationDate, president, members);
-        this.associations = associations;
-        this.boards = boards;
-        this.clubs = clubs;
-        this.siret = siret;
-    }
 }

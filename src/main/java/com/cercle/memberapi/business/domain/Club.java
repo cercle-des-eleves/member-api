@@ -3,21 +3,39 @@ package com.cercle.memberapi.business.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.UUID;
 
 
-@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@DiscriminatorValue("Club")
-public class Club extends Organization {
+public class Club {
+    @Id
+    @Column(updatable = false, nullable = false)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
 
-    public Club(String id, String name, Boolean active, ZonedDateTime creationDate, Member president, List<Member> members) {
-    }
+    private String name;
+
+    private Boolean active;
+
+    @Column(updatable = false)
+    private ZonedDateTime creationDate = ZonedDateTime.now();
+
+    @ManyToOne
+    private Member president;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "club_members", joinColumns = {@JoinColumn(name = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "member_id")})
+    private List<Member> members;
 
 }
