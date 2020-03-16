@@ -22,7 +22,7 @@ public class Board {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(unique = true, nullable = false,length = 40)
+    @Column(unique = true, nullable = false,length = 36)
     @Type(type="uuid-char")
     private UUID id;
 
