@@ -27,14 +27,13 @@ public class MemberController {
     }
 
     @GetMapping("/{id}")
-    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
     public Member getMemberById(@PathVariable UUID id) {
 
         return memberService.getMemberById(id);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
     public Member saveMember(@RequestBody Member member, HttpServletRequest request) {
         return memberService.save(member);
