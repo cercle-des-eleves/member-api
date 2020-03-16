@@ -34,7 +34,7 @@ public class Board {
     private Member president;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "board_members", joinColumns = {@JoinColumn(name = "id")},
+    @JoinTable(name = "board_member", joinColumns = {@JoinColumn(name = "board_id")},
             inverseJoinColumns = {@JoinColumn(name = "member_id")})
     private Set<Member> members;
 

@@ -35,7 +35,7 @@ public class Association {
     private Member president;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "association_members", joinColumns = {@JoinColumn(name = "id")},
+    @JoinTable(name = "association_member", joinColumns = {@JoinColumn(name = "association_id")},
             inverseJoinColumns = {@JoinColumn(name = "member_id")})
     private List<Member> members;
 

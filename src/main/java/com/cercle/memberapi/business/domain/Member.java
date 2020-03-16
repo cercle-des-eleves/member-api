@@ -8,6 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
@@ -28,7 +29,8 @@ public class Member {
     private String lastName;
 
     private String firstName;
-    
+
+    @Email
     private String email;
 
     @CreationTimestamp
