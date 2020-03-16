@@ -21,6 +21,13 @@ public interface AssociationService {
 
     List<MemberDTO> getAssociationMembers(String id, Integer pageNo, Integer pageSize, String sortBy);
 
+    AssociationDTO addAssociation(String associationId, String organizationId);
+
+    AssociationDTO addClub(String associationId, String organizationId);
+
+    AssociationDTO addBoard(String associationId, String organizationId);
+
+
 //    List<OrganizationDTO> getAssociationOrganizations(String id);
 //
 //    AssociationDTO addAssociationOrganization(String associationId, String organizationId);

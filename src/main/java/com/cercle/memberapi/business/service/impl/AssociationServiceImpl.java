@@ -4,15 +4,15 @@ import com.cercle.memberapi.api.v1.model.AssociationDTO;
 import com.cercle.memberapi.api.v1.model.AssociationDetailedDTO;
 import com.cercle.memberapi.api.v1.model.MemberDTO;
 import com.cercle.memberapi.business.domain.Association;
+import com.cercle.memberapi.business.domain.Board;
+import com.cercle.memberapi.business.domain.Club;
 import com.cercle.memberapi.business.domain.Member;
 import com.cercle.memberapi.business.exception.ResourceNotFoundException;
 import com.cercle.memberapi.business.service.AssociationService;
 import com.cercle.memberapi.mapper.AssociationMapper;
 import com.cercle.memberapi.mapper.MemberMapper;
 import com.cercle.memberapi.mapper.OrganizationMapper;
-import com.cercle.memberapi.persistence.repository.AssociationRepository;
-import com.cercle.memberapi.persistence.repository.MemberRepository;
-import com.cercle.memberapi.persistence.repository.OrganizationRepository;
+import com.cercle.memberapi.persistence.repository.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +30,8 @@ public class AssociationServiceImpl implements AssociationService {
 
     private AssociationRepository associationRepository;
     private OrganizationRepository organizationRepository;
+    private BoardRepository boardRepository;
+    private ClubRepository clubRepository;
     private MemberRepository memberRepository;
     private AssociationMapper associationMapper;
     private OrganizationMapper organizationMapper;
@@ -38,9 +40,11 @@ public class AssociationServiceImpl implements AssociationService {
     public AssociationServiceImpl(AssociationRepository associationRepository,
                                   OrganizationRepository organizationRepository, MemberRepository memberRepository,
                                   AssociationMapper associationMapper, OrganizationMapper organizationMapper,
-                                  MemberMapper memberMapper) {
+                                  MemberMapper memberMapper, ClubRepository clubRepository, BoardRepository boardRepository) {
         this.associationRepository = associationRepository;
         this.organizationRepository = organizationRepository;
+        this.boardRepository = boardRepository;
+        this.clubRepository = clubRepository;
         this.memberRepository = memberRepository;
         this.associationMapper = associationMapper;
         this.organizationMapper = organizationMapper;
@@ -78,8 +82,8 @@ public class AssociationServiceImpl implements AssociationService {
     @Override
     public AssociationDetailedDTO getAssociationById(String id) {
         return associationRepository.findById(id)
-            .map(association -> associationMapper.toAssociationDetailedDTO(association))
-            .orElseThrow(ResourceNotFoundException::new);
+                .map(association -> associationMapper.toAssociationDetailedDTO(association))
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
@@ -125,21 +129,51 @@ public class AssociationServiceImpl implements AssociationService {
 //            value -> value.getOrganizations().stream().map(organizationMapper::toOrganizationDTO).collect(Collectors.toList()))
 //            .orElseThrow(ResourceNotFoundException::new);
 //    }
-//
-//    @Override
-//    public AssociationDTO addAssociationOrganization(String associationId, String organizationId) {
-//        Optional<Association> association = associationRepository.findById(associationId);
-//        Optional<Organization> organization = organizationRepository.findById(organizationId);
-//
-//        if (association.isPresent() && organization.isPresent()) {
-//            Association asso = association.get();
-//            asso.getOrganizations().add(organization.get());
-//            asso = associationRepository.save(asso);
-//            return associationMapper.toAssociationDTO(asso);
-//        } else {
-//            throw new ResourceNotFoundException();
-//        }
-//    }
+
+    @Override
+    public AssociationDTO addAssociation(String associationId, String organizationId) {
+        Optional<Association> association = associationRepository.findById(associationId);
+        Optional<Association> organization = associationRepository.findById(organizationId);
+
+        if (association.isPresent() && organization.isPresent()) {
+            Association asso = association.get();
+            asso.getAssociations().add(organization.get());
+            asso = associationRepository.save(asso);
+            return associationMapper.toAssociationDTO(asso);
+        } else {
+            throw new ResourceNotFoundException();
+        }
+    }
+
+    @Override
+    public AssociationDTO addClub(String associationId, String organizationId) {
+        Optional<Association> association = associationRepository.findById(associationId);
+        Optional<Club> organization = clubRepository.findById(organizationId);
+
+        if (association.isPresent() && organization.isPresent()) {
+            Association asso = association.get();
+            asso.getClubs().add(organization.get());
+            asso = associationRepository.save(asso);
+            return associationMapper.toAssociationDTO(asso);
+        } else {
+            throw new ResourceNotFoundException();
+        }
+    }
+
+    @Override
+    public AssociationDTO addBoard(String associationId, String organizationId) {
+        Optional<Association> association = associationRepository.findById(associationId);
+        Optional<Board> organization = boardRepository.findById(organizationId);
+
+        if (association.isPresent() && organization.isPresent()) {
+            Association asso = association.get();
+            asso.getBoards().add(organization.get());
+            asso = associationRepository.save(asso);
+            return associationMapper.toAssociationDTO(asso);
+        } else {
+            throw new ResourceNotFoundException();
+        }
+    }
 
 //    @Override
 //    public AssociationDTO removeAssociationOrganization(String associationId, String organizationId) {
