@@ -9,6 +9,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -25,7 +26,7 @@ public class Association {
 
     private String name;
 
-    private Boolean active;
+    private boolean active;
 
     @Column(updatable = false)
     private ZonedDateTime creationDate = ZonedDateTime.now();
@@ -39,13 +40,13 @@ public class Association {
     private List<Member> members;
 
     @OneToMany
-    private List<Association> associations;
+    private Set<Association> associations;
 
     @OneToMany
-    private List<Board> boards;
+    private Set<Board> boards;
 
     @OneToMany
-    private List<Club> clubs;
+    private Set<Club> clubs;
 
     @Column(length = 14)
     private String siret;

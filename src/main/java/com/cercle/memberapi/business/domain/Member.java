@@ -10,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -28,7 +29,7 @@ public class Member {
 
     private String firstName;
     
-    private String mail;
+    private String email;
 
     @CreationTimestamp
     private ZonedDateTime creationDate;
@@ -39,11 +40,11 @@ public class Member {
     private String promotion;
 
     @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY)
-    private List<Association> associations;
+    private Set<Association> associations;
 
     @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY)
-    private List<Board> boards;
+    private Set<Board> boards;
 
     @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY)
-    private List<Club> clubs;
+    private Set<Club> clubs;
 }
