@@ -23,7 +23,7 @@ public class Club {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(unique = true, nullable = false,length = 128)
+    @Column(unique = true, nullable = false,length = 40)
     @Type(type="uuid-char")
     private UUID id;
 

@@ -7,9 +7,6 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: create
       use-new-id-generator-mappings: true
