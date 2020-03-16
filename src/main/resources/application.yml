@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: local
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${DB_URL}:${DB_PORT}/${DB_NAME}?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC
@@ -9,4 +11,5 @@ spring:
       ddl-auto: create
       use-new-id-generator-mappings: true
     database: mysql
+    open-in-view: false
 

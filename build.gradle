@@ -50,11 +50,11 @@ dependencies {
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 }
 
-tasks.withType(JavaCompile) {
-    options.compilerArgs = [
-            '-Amapstruct.suppressGeneratorTimestamp=true'
-    ]
-}
+//tasks.withType(JavaCompile) {
+//    options.compilerArgs = [
+//            '-Amapstruct.suppressGeneratorTimestamp=true'
+//    ]
+//}
 
 test {
     useJUnitPlatform()
