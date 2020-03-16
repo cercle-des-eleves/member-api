@@ -28,9 +28,9 @@ public class MemberController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Member getMemberById(@PathVariable UUID id) {
+    public Member getMemberById(@PathVariable String id) {
 
-        return memberService.getMemberById(id);
+        return memberService.getMemberById(UUID.fromString(id));
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)

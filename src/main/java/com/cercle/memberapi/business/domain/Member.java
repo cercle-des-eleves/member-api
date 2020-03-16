@@ -5,11 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.time.ZonedDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -21,9 +23,10 @@ import java.util.UUID;
 public class Member {
 
     @Id
-    @Column(updatable = false, nullable = false)
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(unique = true, nullable = false,length = 128)
+    @Type(type="uuid-char")
     private UUID id;
 
     private String lastName;
@@ -41,12 +44,12 @@ public class Member {
 
     private String promotion;
 
-    @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY)
-    private Set<Association> associations;
+    @ManyToMany(mappedBy = "members", fetch = FetchType.EAGER)
+    private Set<Association> associations = new HashSet<>();
 
-    @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY)
-    private Set<Board> boards;
+    @ManyToMany(mappedBy = "members", fetch = FetchType.EAGER)
+    private Set<Board> boards = new HashSet<>();
 
-    @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY)
-    private Set<Club> clubs;
+    @ManyToMany(mappedBy = "members", fetch = FetchType.EAGER)
+    private Set<Club> clubs = new HashSet<>();
 }

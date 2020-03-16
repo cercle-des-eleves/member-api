@@ -2,7 +2,7 @@ package com.cercle.memberapi.business.service;
 
 import com.cercle.memberapi.business.domain.Member;
 import com.cercle.memberapi.business.exception.ResourceNotFoundException;
-import com.cercle.memberapi.persistence.repoisotry.MemberRepository;
+import com.cercle.memberapi.persistence.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;

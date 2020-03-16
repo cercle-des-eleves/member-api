@@ -1,4 +1,4 @@
-package com.cercle.memberapi.persistence.repoisotry;
+package com.cercle.memberapi.persistence.repository;
 
 import com.cercle.memberapi.business.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;

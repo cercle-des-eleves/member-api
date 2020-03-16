@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
@@ -19,9 +20,10 @@ import java.util.UUID;
 public class Association {
 
     @Id
-    @Column(updatable = false, nullable = false)
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(unique = true, nullable = false,length = 128)
+    @Type(type="uuid-char")
     private UUID id;
 
     private String name;
@@ -35,9 +37,11 @@ public class Association {
     private Member president;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "association_member", joinColumns = {@JoinColumn(name = "association_id")},
-            inverseJoinColumns = {@JoinColumn(name = "member_id")})
-    private List<Member> members;
+    @JoinTable(
+            name = "association_member",
+            joinColumns = {@JoinColumn(name = "association_id")},inverseJoinColumns = {@JoinColumn(name = "member_id")}
+    )
+    private Set<Member> members;
 
     @OneToMany
     private Set<Association> associations;

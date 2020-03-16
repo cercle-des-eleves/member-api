@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
@@ -17,15 +18,17 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 public class Board {
+
     @Id
-    @Column(updatable = false, nullable = false)
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(unique = true, nullable = false,length = 128)
+    @Type(type="uuid-char")
     private UUID id;
 
     private String name;
 
-    private Boolean active;
+    private boolean active;
 
     @Column(updatable = false)
     private ZonedDateTime creationDate = ZonedDateTime.now();
